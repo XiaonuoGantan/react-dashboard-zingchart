@@ -30,6 +30,18 @@ gulp.task('styles',function() {
     .pipe(reload({stream:true}))
 });
 
+gulp.task('materialize',function() {
+  gulp.src('css/materialize.min.css')
+    .pipe(gulp.dest('./build/css/'))
+    .pipe(reload({stream:true}))
+});
+
+gulp.task('font', function() {
+  gulp.src('css/font/**')
+    .pipe(gulp.dest('./build/font/'))
+    .pipe(reload({stream:true}))
+})
+
 /*
   Images
 */
@@ -100,12 +112,12 @@ gulp.task('scripts', function() {
 });
 
 // this will build the main JS and CSS files that are ready for deployment
-gulp.task('build', ['images', 'styles', 'scripts'], function() {
+gulp.task('build', ['images', 'styles', 'materialize', 'font', 'scripts'], function() {
   return buildScript('main.js', false);
 });
 
 // run 'scripts' task first, then watch for future changes
-gulp.task('default', ['images','styles','scripts','browser-sync'], function() {
+gulp.task('default', ['images','styles','materialize','font','scripts','browser-sync'], function() {
   gulp.watch('css/**/*', ['styles']); // gulp watch for stylus changes
   return buildScript('main.js', true); // browserify watch for JS changes
 });
